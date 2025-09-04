@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sinophone"
+name = "sinophone-zh"
 description = "中华音码（SinoPhone）- 中文拼音语音模糊哈希编码算法"
 readme = "README.md"
 requires-python = ">=3.6"
@@ -50,11 +50,14 @@ Repository = "https://github.com/Johnless31/SinoPhone"
 Issues = "https://github.com/Johnless31/SinoPhone/issues" 
 Documentation = "https://github.com/Johnless31/SinoPhone#readme" 
 
+[tool.setuptools.package-dir]
+sinophone = "main"
+
 [tool.setuptools]
-packages = ["main"]
+packages = ["sinophone"]
 
 [tool.setuptools.dynamic]
-version = {attr = "main.__version__"}
+version = {attr = "sinophone.__version__"}
 
 [tool.black]
 line-length = 88

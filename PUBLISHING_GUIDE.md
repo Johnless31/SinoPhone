@@ -65,7 +65,7 @@ python -m twine upload --repository testpypi dist/*
 ### 步骤5：测试安装
 ```bash
 # 从 TestPyPI 安装测试
-pip install --index-url https://test.pypi.org/simple/ sinophone
+pip install --index-url https://test.pypi.org/simple/ sinophone-zh
 
 # 测试功能
 python -c "from sinophone import chinese_to_sinophone; print(chinese_to_sinophone('测试'))"
@@ -96,7 +96,7 @@ git push origin v0.0.1
 ## 🔧 常见问题
 
 ### Q: 包名已被占用怎么办？
-A: 修改 `setup.py` 和 `pyproject.toml` 中的包名，例如改为 `sinophone-yourname`
+A: 修改 `setup.py` 和 `pyproject.toml` 中的包名，例如改为 `sinophone-zh`
 
 ### Q: 上传失败怎么办？
 A: 检查：

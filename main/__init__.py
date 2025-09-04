@@ -21,7 +21,7 @@ SinoPhone (中华音码) - 中文拼音语音模糊哈希编码算法
     print(result)  # 输出: "ZG UG"
 """
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __author__ = "johnless"
 __email__ = "346656208@qq.com"
 __description__ = "中华音码（SinoPhone）- 中文拼音语音模糊哈希编码算法"

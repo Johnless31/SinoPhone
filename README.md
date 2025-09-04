@@ -1,7 +1,7 @@
 # SinoPhone (中华音码)
 
-[![PyPI version](https://badge.fury.io/py/sinophone.svg)](https://badge.fury.io/py/sinophone)
-[![Python](https://img.shields.io/pypi/pyversions/sinophone.svg)](https://pypi.org/project/sinophone/)
+[![PyPI version](https://badge.fury.io/py/sinophone-zh.svg)](https://badge.fury.io/py/sinophone-zh)
+[![Python](https://img.shields.io/pypi/pyversions/sinophone-zh.svg)](https://pypi.org/project/sinophone-zh/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 SinoPhone（中华音码）是一个用于将中文拼音转换为语音模糊哈希编码的Python库。主要用于处理中文语音识别中的同音字和方言混淆问题。
@@ -17,7 +17,7 @@ SinoPhone（中华音码）是一个用于将中文拼音转换为语音模糊�
 ## 安装
 
 ```bash
-pip install sinophone
+pip install sinophone-zh
 ```
 
 ## 快速开始

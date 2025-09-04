@@ -23,7 +23,7 @@ def read_requirements():
     return []
 
 setup(
-    name='sinophone',
+    name='sinophone-zh',
     version='0.0.1',
     author='johnless', 
     author_email='346656208@qq.com', 
