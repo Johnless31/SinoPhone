@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sinophone"
+description = "中华音码（SinoPhone）- 中文拼音语音模糊哈希编码算法"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+    {name = "johnless", email = "346656208@qq.com"},
+]
+maintainers = [
+    {name = "johnless", email = "346656208@qq.com"},
+]
+keywords = ["chinese", "pinyin", "phonetic", "hash", "encoding", "sinophone", "中文", "拼音", "语音编码"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Natural Language :: Chinese (Simplified)",
+    "Natural Language :: Chinese (Traditional)",
+]
+dependencies = [
+    "pypinyin>=0.44.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "flake8",
+    "black",
+]
+
+[project.urls]
+Homepage = "https://github.com/Johnless31/SinoPhone" 
+Repository = "https://github.com/Johnless31/SinoPhone" 
+Issues = "https://github.com/Johnless31/SinoPhone/issues" 
+Documentation = "https://github.com/Johnless31/SinoPhone#readme" 
+
+[tool.setuptools]
+packages = ["main"]
+
+[tool.setuptools.dynamic]
+version = {attr = "main.__version__"}
+
+[tool.black]
+line-length = 88
+target-version = ['py36']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
