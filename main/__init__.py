@@ -11,11 +11,11 @@ SinoPhone (中华音码) - 中文拼音语音模糊哈希编码算法
 
 使用示例：
     from sinophone import chinese_to_sinophone, sinophone
-    
+
     # 中文转SinoPhone编码
     result = chinese_to_sinophone("中国")
     print(result)  # 输出: "ZG UG"
-    
+
     # 拼音转SinoPhone编码
     result = sinophone("zhong guo")
     print(result)  # 输出: "ZG UG"

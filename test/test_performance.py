@@ -308,7 +308,6 @@ class TestStressTest:
 class TestResourceUsage:
     """资源使用测试"""
     
-    @pytest.mark.slow
     def test_cpu_usage(self):
         """测试CPU使用情况"""
         import psutil

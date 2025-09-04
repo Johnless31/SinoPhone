@@ -10,12 +10,12 @@ from pypinyin import pinyin, Style
 # 声母映射字典
 INITIAL_MAP = {
     # 标准映射
-    'b': 'B', 'p': 'P', 'm': 'M', 'f': 'F',
-    'd': 'D', 't': 'T', 'n': 'N', 'l': 'L',
+    'b': 'B', 'p': 'P', 'm': 'M',
+    'd': 'D', 't': 'T',
     'z': 'Z', 'c': 'C', 's': 'S',
     'zh': 'Z', 'ch': 'C', 'sh': 'S', 'r': 'R',
     'j': 'J', 'q': 'Q', 'x': 'X',
-    'g': 'G', 'k': 'K', 'h': 'H',
+    'g': 'G', 'k': 'K',
     'y': '_', 'w': '_', 'yu': '_',  # 零声母
     # 混淆规则映射 (覆盖标准映射)
     'l': 'N',  # 将 l 映射到 N (n的代码)，实现 l/n 不分
@@ -28,8 +28,7 @@ INITIAL_MAP = {
 FINAL_MAP = {
     # 标准映射
     'a': 'A', 'ia': 'A', 'ua': 'A',
-    'o': 'O', 'uo': 'O',
-    'e': 'E',
+    'uo': 'O',
     'ie': 'V', 'ei': 'V', 'ui': 'V', 'uei': 'V',
     'ai': 'I', 'uai': 'I',
     'ao': 'W', 'iao': 'W',
@@ -40,7 +39,7 @@ FINAL_MAP = {
     'eng': 'G', 'ing': 'G', 'ueng': 'G', 'ong': 'G', 'iong': 'G',
     'er': 'R',
     'i': 'I', 'u': 'U', 'v': 'U', 'ü': 'U',
-    # 混淆规则映射
+    # 混淆规则映射 (o和e都映射到E)
     'o': 'E',  # o -> e 混淆
     'e': 'E',  # e -> o 混淆
 }
@@ -55,6 +54,7 @@ SPECIAL_SYLLABLES = {
     'm': '_U',     # "呣" m
 }
 
+
 def _sinophone_single(pinyin_syllable):
     """
     对单个拼音音节进行 SinoPhone 编码。
@@ -64,14 +64,14 @@ def _sinophone_single(pinyin_syllable):
     # 输入验证和预处理
     if not isinstance(pinyin_syllable, str):
         raise TypeError(f"输入必须是字符串，得到 {type(pinyin_syllable)}")
-    
+
     # 转换为小写并去除空白字符
     pinyin_syllable = pinyin_syllable.lower().strip()
-    
+
     # 处理空字符串
     if not pinyin_syllable:
         return '__'
-    
+
     # 0. 检查特殊整体音节
     if pinyin_syllable in SPECIAL_SYLLABLES:
         return SPECIAL_SYLLABLES[pinyin_syllable]
@@ -81,18 +81,21 @@ def _sinophone_single(pinyin_syllable):
     final_part = pinyin_syllable
 
     # 检查常见的声母组合（从长到短）
-    for possible_initial in ['zh', 'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'z', 'c', 's', 'j', 'q', 'x', 'g', 'k', 'h', 'r', 'y', 'w']:
+    possible_initials = ['zh', 'ch', 'sh', 'b', 'p', 'm', 'f', 'd', 't',
+                         'n', 'l', 'z', 'c', 's', 'j', 'q', 'x', 'g',
+                         'k', 'h', 'r', 'y', 'w']
+    for possible_initial in possible_initials:
         if pinyin_syllable.startswith(possible_initial):
             initial_part = possible_initial
-            final_part = pinyin_syllable[len(initial_part):] # 剩余部分作为韵母
+            final_part = pinyin_syllable[len(initial_part):]  # 剩余部分作为韵母
             break
     # 如果没有匹配到声母，则整个音节视为韵母（零声母）
     if not initial_part:
-        initial_part = '' # 零声母
+        initial_part = ''  # 零声母
         final_part = pinyin_syllable
 
     # 2. 映射声母
-    initial_code = INITIAL_MAP.get(initial_part, '_') # 默认用_表示零声母或未知
+    initial_code = INITIAL_MAP.get(initial_part, '_')  # 默认用_表示零声母或未知
 
     # 3. 映射韵母
     # 优先尝试匹配最长的可能韵母
@@ -106,12 +109,13 @@ def _sinophone_single(pinyin_syllable):
     else:
         # 如果没有完全匹配，尝试简单匹配（后备策略）
         if final_part:
-            final_code = final_part[0].upper() # 取第一个字符的大写
+            final_code = final_part[0].upper()  # 取第一个字符的大写
         else:
             final_code = '_'
 
     # 4. 组合代码
     return initial_code + final_code
+
 
 def sinophone(pinyin_text):
     """
@@ -123,20 +127,21 @@ def sinophone(pinyin_text):
     # 输入验证
     if not isinstance(pinyin_text, str):
         raise TypeError(f"输入必须是字符串，得到 {type(pinyin_text)}")
-    
+
     # 处理空字符串
     if not pinyin_text.strip():
         return ''
-    
+
     # 分割音节，过滤空字符串
     syllables = [syl for syl in pinyin_text.split() if syl.strip()]
-    
+
     # 如果没有有效音节，返回空字符串
     if not syllables:
         return ''
-    
+
     coded_syllables = [_sinophone_single(syl) for syl in syllables]
     return ' '.join(coded_syllables)
+
 
 def chinese_to_sinophone(chinese_text, join_with_space=True):
     """
@@ -148,14 +153,14 @@ def chinese_to_sinophone(chinese_text, join_with_space=True):
     # 输入验证
     if not isinstance(chinese_text, str):
         raise TypeError(f"输入必须是字符串，得到 {type(chinese_text)}")
-    
+
     # 处理空字符串
     if not chinese_text.strip():
         return ''
-    
+
     # 使用pypinyin获取拼音，不带声调
     pinyin_list = pinyin(chinese_text, style=Style.NORMAL)
-    
+
     # 将拼音转换为SinoPhone码
     coded_syllables = []
     for syllable_list in pinyin_list:
@@ -163,13 +168,12 @@ def chinese_to_sinophone(chinese_text, join_with_space=True):
         syllable = syllable_list[0]  # 取第一个（通常只有一个）
         if syllable.strip():  # 只处理非空音节
             coded_syllables.append(_sinophone_single(syllable))
-    
+
     # 如果没有有效音节，返回空字符串
     if not coded_syllables:
         return ''
-    
+
     if join_with_space:
         return ' '.join(coded_syllables)
     else:
         return ''.join(coded_syllables)
-

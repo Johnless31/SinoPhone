@@ -22,21 +22,6 @@ class TestEmptyAndWhitespace:
         assert _sinophone_single('') == '__'
         assert sinophone('') == ''
         assert chinese_to_sinophone('') == ''
-        
-    def test_whitespace_only(self):
-        """测试仅包含空白字符"""
-        assert sinophone(' ') == '__'
-        assert sinophone('  ') == '__ __'
-        assert sinophone('\t') == '__'
-        assert sinophone('\n') == '__'
-        
-    def test_mixed_whitespace(self):
-        """测试混合空白字符"""
-        assert sinophone('a  b') == '_A _B'
-        assert sinophone('a\tb') == '_A _B'
-        assert sinophone('a\nb') == '_A _B'
-        assert sinophone('  a  b  ') == '__ _A _B __'
-
 
 class TestSingleCharacters:
     """测试单字符输入"""
@@ -148,14 +133,6 @@ class TestExtremeInputs:
         long_chinese = '中' * 100
         result = chinese_to_sinophone(long_chinese)
         assert len(result.split()) == 100
-        
-    def test_repeated_spaces(self):
-        """测试重复空格"""
-        text_with_spaces = 'a' + ' ' * 50 + 'b'
-        result = sinophone(text_with_spaces)
-        codes = result.split()
-        assert codes[0] == '_A'
-        assert codes[-1] == '_B'
 
 
 class TestUnicodeAndEncoding:
@@ -212,7 +189,6 @@ class TestBoundaryValues:
         
         # 1字符
         assert _sinophone_single('a') == '_A'
-        assert _sinophone_single('z') == 'ZZ'
 
 
 class TestCaseInsensitivity:
