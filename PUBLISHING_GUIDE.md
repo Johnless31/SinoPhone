@@ -80,8 +80,8 @@ python -m twine upload dist/*
 
 ### 1. 创建 Git Tag
 ```bash
-git tag v0.0.1
-git push origin v0.0.1
+git tag v0.0.x
+git push origin v0.0.x
 ```
 
 ### 2. 创建 GitHub Release

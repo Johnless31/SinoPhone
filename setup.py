@@ -24,7 +24,7 @@ def read_requirements():
 
 setup(
     name='sinophone-zh',
-    version='0.0.1',
+    version='0.0.3',
     author='johnless', 
     author_email='346656208@qq.com', 
     description='中华音码（SinoPhone）- 中文拼音语音模糊哈希编码算法',

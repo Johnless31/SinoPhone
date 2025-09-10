@@ -4,7 +4,7 @@ SinoPhone (中华音码) 算法
 目标：将中文拼音转换为一个唯一的、语音模糊的哈希编码。
 """
 
-from pypinyin import pinyin, Style
+from pypinyin import pinyin, Style, lazy_pinyin
 
 # ====== 核心映射表 ======
 # 声母映射字典
@@ -177,3 +177,28 @@ def chinese_to_sinophone(chinese_text, join_with_space=True):
         return ' '.join(coded_syllables)
     else:
         return ''.join(coded_syllables)
+
+def chinese_to_rhymes(chinese_text):
+    """
+    将中文短语转换为韵母列表。
+    :param chinese_text: 中文字符串，如 "中国"
+    :return: 韵母列表，如 ['ong', 'uo']
+    """
+    # 输入验证
+    if not isinstance(chinese_text, str):
+        raise TypeError(f"输入必须是字符串，得到 {type(chinese_text)}")
+
+    # 处理空字符串
+    if not chinese_text.strip():
+        return []
+
+    # 使用 lazy_pinyin 函数获取每个字的拼音，并指定 Style.FINALS_TONE2 来获取韵母和声调
+    pinyins_with_tones = lazy_pinyin(chinese_text, style=Style.FINALS_TONE2)
+    
+    rhymes = []
+    for pinyin in pinyins_with_tones:
+        # 移除韵母中的数字声调（声调可能在中间位置）
+        rhyme = ''.join(char for char in pinyin if char not in '1234')
+        rhymes.append(rhyme)
+    
+    return rhymes
